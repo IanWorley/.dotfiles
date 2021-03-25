@@ -278,13 +278,23 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (python-mode lsp-jedi lsp-mode which-key visual-fill-column use-package rainbow-delimiters org-bullets ivy-rich hydra helpful general forge evil-collection doom-themes doom-modeline counsel-projectile company command-log-mode))))
+    (company-box lsp-treemacs lsp-ui python-mode lsp-jedi lsp-mode which-key visual-fill-column use-package rainbow-delimiters org-bullets ivy-rich hydra helpful general forge evil-collection doom-themes doom-modeline counsel-projectile company command-log-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs
+    :after lsp)
+
 
 (use-package company
   :after lsp-mode
@@ -298,8 +308,11 @@
   (company-idle-delay 0.0))
 
 
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+
 
 (use-package python-mode
-  :ensure t
-  :custom
-  (python-shell-interpreter "python3"))
+  :ensure t)
+
