@@ -278,7 +278,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-box lsp-treemacs lsp-ui python-mode lsp-jedi lsp-mode which-key visual-fill-column use-package rainbow-delimiters org-bullets ivy-rich hydra helpful general forge evil-collection doom-themes doom-modeline counsel-projectile company command-log-mode))))
+    (lsp-pyright company-box lsp-treemacs lsp-ui python-mode lsp-jedi lsp-mode which-key visual-fill-column use-package rainbow-delimiters org-bullets ivy-rich hydra helpful general forge evil-collection doom-themes doom-modeline counsel-projectile company command-log-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -316,3 +316,8 @@
 (use-package python-mode
   :ensure t)
 
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+			 (require 'lsp-pyright)
+			                           (lsp))))  ; or lsp-deferred
