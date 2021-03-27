@@ -199,7 +199,7 @@
 
 
 ;; NOTE: Make sure to configure a GitHub token before using this package!
-;; - https://magit.vc/manual/forge/Token-Creation.html#Token-Creation
+
 ;; - https://magit.vc/manual/ghub/Getting-Started.html#Getting-Started
 (use-package forge)
 
@@ -337,22 +337,43 @@
 
   ;; This is set to 't' to avoid mail syncing issues when using mbsync
   (setq mu4e-change-filenames-when-moving t)
-
-  ;; Refresh mail using isync every 10 minutes
   (setq mu4e-update-interval (* 10 60))
   (setq mu4e-get-mail-command "mbsync -a")
   (setq mu4e-maildir "~/Mail")
-
-  (setq mu4e-drafts-folder "/[Gmail]/Drafts")
-  (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
-  (setq mu4e-refile-folder "/[Gmail]/All Mail")
-  (setq mu4e-trash-folder  "/[Gmail]/Trash")
-
-
 
   (setq mu4e-maildir-shortcuts
 	'((:maildir "/Inbox"    :key ?i)
 	  (:maildir "/[Gmail]/Sent Mail" :key ?s)
 	  (:maildir "/[Gmail]/Trash"     :key ?t)
 	  (:maildir "/[Gmail]/Drafts"    :key ?d)
-	        (:maildir "/[Gmail]/All Mail"  :key ?a))))
+	  (:maildir "/[Gmail]/All Mail"  :key ?a))))
+
+    (setq mu4e-contexts
+      (list
+       ;; Work account
+       (make-mu4e-context
+	:name "Personal"
+	:match-func
+	(lambda (msg)
+	  (when msg
+	    (string-prefix-p "/Gmail" (mu4e-message-field msg :maildir))))
+	:vars '((user-mail-address . "therealianw@gmail.com")
+		(user-full-name    . "Ian Worley")
+		(mu4e-drafts-folder  . "/therealianw/Drafts")
+		(mu4e-sent-folder  . "/therealianw/Sent Mail")
+		(mu4e-refile-folder  . "/therealianw/All Mail")
+		                  (mu4e-trash-folder  . "/therealianw/Trash")))
+
+
+(make-mu4e-context
+ :name "school"
+ :match-func
+ (lambda (msg)
+   (when msg
+     (string-prefix-p "/iworley001" (mu4e-message-field msg :maildir))))
+ :vars '((user-mail-address . "iworley0001@student.fortosage.net")
+	 (user-full-name    . "Ian Worley")
+	 (mu4e-drafts-folder  . "/iworley0001/Drafts")
+	 (mu4e-sent-folder  . "/iworley0001/Sent")
+	 (mu4e-refile-folder  . "/iworley0001/Archive")
+	                 (mu4e-trash-folder  . "/iworley0001/Trash")))))
